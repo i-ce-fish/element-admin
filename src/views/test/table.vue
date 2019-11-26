@@ -30,28 +30,30 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="block">
-      <el-pagination
-        layout="prev, pager, next"
-        :total="100"
-        :current-page="currentPage"
-        @current-change="handleCurrentChange"
-      />
-    </div>
-
+    <pagination
+      :page-obj="pageObj"
+      :layout="layout"
+      @fatherMethod="getList"
+    />
   </div>
 </template>
 
 <script>
 import { getList } from '@/api/test'
+import pagination from '@/components/test/pagination'
 
 export default {
+  components: { pagination },
   data() {
     return {
       tableData: [],
-      currentPage: 1,
-      pagesize: 10,
-      listLoading: true
+      layout: 'total, prev, pager, next, sizes',
+      pageObj: {
+        total: 100,
+        pageNumber: 1,
+        pageSize: 10,
+        pageSizes: [10, 20, 30, 40, 50]
+      }
     }
   },
   created() {
@@ -60,21 +62,11 @@ export default {
   methods: {
     async getList() {
       this.listLoading = true
-      const o = await getList({ page: this.currentPage, results: this.pagesize })
+      const o = await getList({ page: this.pageObj.pageNumber, results: this.pageObj.pageSize })
       this.tableData = o.results
       this.listLoading = false
-    },
-    handleCurrentChange(currentPage) {
-      this.currentPage = currentPage
-      this.getList()
-    },
-    handleClick(row) {
-      this.$router.push({
-        path: 'detail', query: {
-          id: row.id.value
-        }
-      })
     }
+
   }
 
 }
