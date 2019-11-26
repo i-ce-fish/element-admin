@@ -6,7 +6,7 @@
           <span class="text">name</span>
         </div>
         <div>
-          <el-input v-model="o.name" placeholder="请输入内容" />
+          <el-input v-model="o.name.first" placeholder="请输入内容" />
         </div>
       </div>
       <div class="title">
@@ -42,7 +42,7 @@ import { getList } from '@/api/test'
 export default {
   data() {
     return {
-      o: {}
+      o: { name: {}}
     }
   },
   created() {
@@ -53,6 +53,7 @@ export default {
       const id = this.$route.query.id
       const o = await getList({ id })
       this.o = o.results[0]
+      console.log(this.o)
     }
   }
 

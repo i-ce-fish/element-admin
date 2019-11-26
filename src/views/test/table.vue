@@ -1,58 +1,34 @@
 <template>
   <div>
-    <el-table
-      :data="tableData"
-      border
-      style="width: 100%"
-    >
-      <el-table-column
-        prop="name.first"
-        label="name"
-      />
-      <el-table-column
-        prop="gender"
-        label="gender"
-      />
-      <el-table-column
-        prop="email"
-        label="email"
-      />
-      <el-table-column
-        prop="phone"
-        label="phone"
-      />
-
-      <el-table-column
-        label="操作"
-      >
-        <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handleClick(scope.row)">查看</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <m-table :table-obj="tableObj" ></m-table>
     <pagination
       :page-obj="pageObj"
       :layout="layout"
-      @fatherMethod="getList"
-    />
+      @fatherMethod="getList">
+    </pagination>
   </div>
 </template>
 
 <script>
 import { getList } from '@/api/test'
 import pagination from '@/components/test/pagination'
+import mTable from '@/components/test/table'
 
 export default {
-  components: { pagination },
+  components: { pagination, mTable },
   data() {
     return {
-      tableData: [],
       layout: 'total, prev, pager, next, sizes',
       pageObj: {
         total: 100,
         pageNumber: 1,
         pageSize: 10,
         pageSizes: [10, 20, 30, 40, 50]
+      },
+      tableObj: {
+        tableHead: ['name', 'gender', 'email', 'phone'],
+        tableFiled: ['name', 'gender', 'email', 'phone', 'id'],
+        tableData: []
       }
     }
   },
@@ -61,16 +37,17 @@ export default {
   },
   methods: {
     async getList() {
-      this.listLoading = true
+      this.tableObj.tableData = []
       const o = await getList({ page: this.pageObj.pageNumber, results: this.pageObj.pageSize })
-      this.tableData = o.results
-      this.listLoading = false
-    },
-    handleClick(row) {
-      this.$router.push({
-        path: 'detail', query: {
-          id: row.id.value
-        }
+
+      o.results.forEach((item) => {
+        this.tableObj.tableData.push({
+          name: item.name.first,
+          gender: item.gender,
+          email: item.email,
+          phone: item.phone,
+          id: item.id.value
+        })
       })
     }
 
