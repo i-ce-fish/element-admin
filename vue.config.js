@@ -39,9 +39,12 @@ module.exports = {
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
+      '^/api': {
+        target: `http://randomuser.me`,
+        changeOrigin: true
+      },
       [process.env.VUE_APP_BASE_API]: {
-        // target: `http://127.0.0.1:${port}/mock`,
-        target: `https://randomuser.me`,
+        target: `http://127.0.0.1:${port}/mock`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
@@ -50,16 +53,19 @@ module.exports = {
     },
     after: require('./mock/mock-server.js')
   },
-  configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
-    name: name,
-    resolve: {
-      alias: {
-        '@': resolve('src')
-      }
-    }
-  },
+  configureWebpack:
+    {
+      // provide the app's title in webpack's name field, so that
+      // it can be accessed in index.html to inject the correct title.
+      name: name,
+      resolve:
+        {
+          alias: {
+            '@':
+              resolve('src')
+          }
+        }
+    },
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
     config.plugins.delete('prefetch') // TODO: need test

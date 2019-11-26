@@ -5,8 +5,8 @@ import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  // baseURL:'https://randomuser.me',
+  // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: '',
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
@@ -14,6 +14,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   config => {
+    console.log(config)
     // do something before request is sent
     if (store.getters.token) {
       // let each request carry token

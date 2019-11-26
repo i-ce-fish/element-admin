@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getList(data) {
   return request({
-    url: 'https://randomuser.me/api',
+    url: '/api',
     method: 'get',
     params: data
   })

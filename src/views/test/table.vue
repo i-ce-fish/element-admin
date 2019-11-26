@@ -65,6 +65,13 @@ export default {
       const o = await getList({ page: this.pageObj.pageNumber, results: this.pageObj.pageSize })
       this.tableData = o.results
       this.listLoading = false
+    },
+    handleClick(row) {
+      this.$router.push({
+        path: 'detail', query: {
+          id: row.id.value
+        }
+      })
     }
 
   }
