@@ -3,7 +3,7 @@
     <div class="pagination-container">
       <el-pagination
         background
-        :layout="layout"
+        :layout="pageObj.layout"
         :total="pageObj.total"
         :page-size="pageObj.pageSize"
         :page-sizes="pageObj.pageSizes"
@@ -17,25 +17,31 @@
 export default {
   components: {},
   props: {
-    layout: { type: String, default: 'total, prev, pager, next, jumper, sizes' },
     pageObj: {}
+
   },
   data() {
     return {}
   }, computed: {},
   watch: {},
   created() {
+    this.init()
   },
   mounted() {
   },
   methods: {
     changePage(page) {
       this.pageObj.pageNumber = page
-      this.$emit('fatherMethod')
+      this.$emit('changePage')
     },
     handleSizeChange(val) {
       this.pageObj.pageSize = val
-      this.$emit('fatherMethod')
+      this.$emit('changePage')
+    },
+    init() {
+      if (!this.pageObj.layout) {
+        this.pageObj.layout = 'total, prev, pager, next, jumper, sizes'
+      }
     }
   }
 }

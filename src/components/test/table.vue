@@ -11,7 +11,7 @@
         :index="i"
         :prop="tableObj.tableFiled[i]"
         :label="o"
-      ></el-table-column>
+      />
 
       <el-table-column
         label="操作"

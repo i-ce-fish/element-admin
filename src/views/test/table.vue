@@ -1,25 +1,23 @@
 <template>
   <div>
-    <m-table :table-obj="tableObj" ></m-table>
-    <pagination
+    <m-table-page
+      :table-obj="tableObj"
       :page-obj="pageObj"
-      :layout="layout"
-      @fatherMethod="getList">
-    </pagination>
+      @changePage="getList"
+    />
   </div>
 </template>
 
 <script>
 import { getList } from '@/api/test'
-import pagination from '@/components/test/pagination'
-import mTable from '@/components/test/table'
+import mTablePage from '@/components/test/tablePage'
 
 export default {
-  components: { pagination, mTable },
+  components: { mTablePage },
   data() {
     return {
-      layout: 'total, prev, pager, next, sizes',
       pageObj: {
+        layout: 'total, prev, pager, next, sizes',
         total: 100,
         pageNumber: 1,
         pageSize: 10,
